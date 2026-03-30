@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mayela's Food | Sabor de Hogar</title>
+    <title>Mayela's Food | Presentación</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
@@ -22,11 +22,11 @@
             color: #333;
         }
 
-        /* Fondo con la imagen que proporcionaste */
+        /* Fondo con tu imagen */
         header {
-            height: 80vh;
+            height: 85vh;
             background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-                        url('https://i.ibb.co/fdfZr7Xp/your-image.jpg'); /* Imagen de fondo */
+                        url('https://i.ibb.co/fdfZr7Xp/your-image.jpg'); 
             background-size: cover;
             background-position: center;
             display: flex;
@@ -40,83 +40,84 @@
 
         header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(3.5rem, 10vw, 5.5rem);
+            font-size: clamp(3.5rem, 10vw, 6rem);
             margin: 0;
-            text-shadow: 2px 4px 8px rgba(0,0,0,0.6);
+            text-shadow: 2px 4px 10px rgba(0,0,0,0.7);
         }
 
         header p {
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             margin-top: 10px;
-            text-shadow: 1px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 1px 2px 5px rgba(0,0,0,0.6);
         }
 
-        /* Contenedor de Presentación */
-        .contenido {
+        /* Contenedor Central */
+        .presentacion-card {
             max-width: 800px;
-            margin: -80px auto 60px;
+            margin: -100px auto 60px;
             background: var(--blanco-puro);
             padding: 60px 40px;
-            border-radius: 8px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             text-align: center;
             border-top: 6px solid var(--dorado-artesanal);
+            position: relative;
         }
 
-        .frase-bienvenida {
+        .bienvenida {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             color: var(--madera-oscura);
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
-        .separador {
+        .adorno {
             color: var(--dorado-artesanal);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-bottom: 30px;
         }
 
-        .descripcion {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 40px;
-            line-height: 1.8;
+        .texto-info {
+            font-size: 1.2rem;
+            color: #4a4a4a;
+            margin-bottom: 45px;
+            line-height: 1.9;
         }
 
-        /* Botón personalizado hacia Google Forms */
-        .btn-pedido {
+        /* BOTÓN: Redirige a pedidos.html */
+        .btn-pide-ya {
             display: inline-block;
             background-color: var(--madera-oscura);
             color: white;
-            padding: 22px 45px;
+            padding: 22px 60px;
             text-decoration: none;
             font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            border-radius: 4px;
+            border-radius: 2px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(61, 43, 31, 0.3);
+            box-shadow: 0 5px 20px rgba(61, 43, 31, 0.4);
             border: 2px solid var(--madera-oscura);
         }
 
-        .btn-pedido:hover {
+        .btn-pide-ya:hover {
             background-color: transparent;
             color: var(--madera-oscura);
             transform: translateY(-3px);
         }
 
         footer {
-            padding: 50px 20px;
+            padding: 60px 20px;
             background: var(--madera-oscura);
             color: var(--crema-calido);
             text-align: center;
         }
 
         @media (max-width: 600px) {
-            .contenido { margin: -40px 20px 40px; padding: 40px 25px; }
-            header { height: 60vh; }
+            .presentacion-card { margin: -50px 20px 40px; padding: 40px 20px; }
+            header { height: 70vh; }
         }
     </style>
 </head>
@@ -124,27 +125,27 @@
 
     <header>
         <h1>Mayela's Food</h1>
-        <p>Tradición que se siente en casa</p>
+        <p>Sabor de hogar, directo a tu mesa</p>
     </header>
 
-    <main class="contenido">
-        <h2 class="frase-bienvenida">Bienvenidos a nuestra cocina</h2>
-        <div class="separador">❧ ❧ ❧</div>
+    <main class="presentacion-card">
+        <h2 class="bienvenida">Calidad y Tradición</h2>
+        <div class="adorno">❧</div>
         
-        <p class="descripcion">
-            En <b>Mayela's Food</b>, cada platillo es preparado con la dedicación y el cariño 
-            de las recetas familiares. Utilizamos ingredientes frescos y naturales para que 
-            disfrutes de una comida empacada con calidad gourmet y sabor artesanal.
+        <p class="texto-info">
+            Descubre el verdadero sazón casero con nuestra comida empacada. 
+            Ingredientes frescos, procesos artesanales y el amor que solo 
+            una cocina de hogar puede ofrecerte.
         </p>
 
-        <a href="https://docs.google.com/forms/d/e/TU_ID_DE_FORMULARIO/viewform" class="btn-pedido">
-            Realiza tu pedido
+        <a href="pedidos.html" class="btn-pide-ya">
+            Pide ya
         </a>
     </main>
 
     <footer>
-        <p><b>Mayela's Food</b> - Managua, Nicaragua</p>
-        <p style="font-size: 0.9rem; color: var(--dorado-artesanal);">Calidad, sabor y tradición en cada entrega.</p>
+        <p><b>Mayela's Food</b> | Managua, Nicaragua</p>
+        <p style="font-size: 0.8rem; opacity: 0.8; letter-spacing: 1px; margin-top: 10px;">TRADICIÓN • FRESCURA • SABOR</p>
     </footer>
 
 </body>
