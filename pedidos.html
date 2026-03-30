@@ -17,6 +17,7 @@
         .btn-mandar { width: 100%; background: var(--madera); color: white; padding: 18px; border: none; cursor: pointer; font-family: 'Playfair Display'; font-size: 1.3rem; transition: 0.3s; }
         .btn-mandar:hover { background: var(--oro); }
         .btn-mandar:disabled { background: #ccc; }
+        .opcional { color: #888; font-weight: normal; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -26,7 +27,12 @@
             <div class="form-group"><label>1. Nombre Completo *</label><input type="text" id="nombre" required></div>
             <div class="form-group"><label>2. Empresa o lugar *</label><input type="text" id="empresa" required></div>
             <div class="form-group"><label>3. Platillo deseado *</label><textarea id="alimento" required></textarea></div>
-            <div class="form-group"><label>4. Extras *</label><input type="text" id="extras" required></div>
+            
+            <div class="form-group">
+                <label>4. Extras <span class="opcional">(Opcional)</span></label>
+                <input type="text" id="extras" placeholder="Ej: Bebida, postre...">
+            </div>
+
             <div class="form-group">
                 <label>5. ¿Desea que se lo lleguemos a dejar? *</label>
                 <input type="radio" name="envio" value="si" onclick="toggleEnvio('si')" required> Sí 
@@ -34,7 +40,12 @@
                 <div id="info-envio"><label>Escriba su dirección exacta:</label><textarea id="direccion"></textarea></div>
                 <div id="info-retiro">Punto de retiro: Detrás del banco de fomento.</div>
             </div>
-            <div class="form-group"><label>6. Recomendaciones *</label><textarea id="recomendaciones" required></textarea></div>
+
+            <div class="form-group">
+                <label>6. Recomendaciones <span class="opcional">(Opcional)</span></label>
+                <textarea id="recomendaciones" placeholder="Ej: Sin cebolla, llamar al llegar..."></textarea>
+            </div>
+
             <button type="submit" id="btnSubmit" class="btn-mandar">Mandar Pedido</button>
         </form>
     </div>
@@ -57,8 +68,19 @@
         const db = getFirestore(app);
 
         window.toggleEnvio = (val) => {
-            document.getElementById('info-envio').style.display = (val === 'si' ? 'block' : 'none');
-            document.getElementById('info-retiro').style.display = (val === 'no' ? 'block' : 'none');
+            const infoEnvio = document.getElementById('info-envio');
+            const infoRetiro = document.getElementById('info-retiro');
+            const inputDir = document.getElementById('direccion');
+
+            if (val === 'si') {
+                infoEnvio.style.display = 'block';
+                infoRetiro.style.display = 'none';
+                inputDir.setAttribute('required', 'required');
+            } else {
+                infoEnvio.style.display = 'none';
+                infoRetiro.style.display = 'block';
+                inputDir.removeAttribute('required');
+            }
         };
 
         document.getElementById('formPedido').addEventListener('submit', async (e) => {
@@ -72,10 +94,12 @@
                     nombre: document.getElementById('nombre').value,
                     empresa: document.getElementById('empresa').value,
                     alimento: document.getElementById('alimento').value,
-                    extras: document.getElementById('extras').value,
+                    // Si está vacío, guarda "Ninguno"
+                    extras: document.getElementById('extras').value || "Ninguno",
                     envio: document.querySelector('input[name="envio"]:checked').value,
                     direccion: document.getElementById('direccion').value || "Retiro en local",
-                    recomendaciones: document.getElementById('recomendaciones').value,
+                    // Si está vacío, guarda "Sin notas"
+                    recomendaciones: document.getElementById('recomendaciones').value || "Sin notas",
                     fecha: serverTimestamp()
                 });
                 window.location.href = 'registros.html';
