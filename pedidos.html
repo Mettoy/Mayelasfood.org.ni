@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -82,9 +83,16 @@
                     recomendaciones: document.getElementById('recomendaciones').value || "Sin notas",
                     fecha: serverTimestamp()
                 });
+                
                 alert("¡Pedido enviado con éxito!");
-                window.location.href = 'index.html';
-            } catch (error) { alert("Error: " + error.message); btn.disabled = false; }
+                // CAMBIO AQUÍ: Redirigir a index.html
+                window.location.href = 'index.html'; 
+                
+            } catch (error) { 
+                alert("Error: " + error.message); 
+                btn.disabled = false; 
+                btn.innerText = "Mandar Pedido";
+            }
         });
     </script>
 </body>
