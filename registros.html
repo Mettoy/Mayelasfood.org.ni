@@ -7,31 +7,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400&display=swap" rel="stylesheet">
     <style>
         :root { --madera: #3d2b1f; --oro: #a67c52; }
-        body { font-family: 'Poppins', sans-serif; background-color: #f4ece2; padding: 20px; }
-        .container { max-width: 950px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 8px solid var(--madera); }
-        .nav-fecha { display: flex; justify-content: space-between; align-items: center; background: #fdfaf7; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #ddd; }
-        .btn-nav { background: var(--madera); color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; font-family: 'Playfair Display'; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { background: var(--madera); color: white; padding: 12px; text-align: left; }
-        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
-        .vacio { text-align: center; padding: 40px; color: #999; font-style: italic; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f4ece2; padding: 10px; margin: 0; }
+        .container { max-width: 900px; margin: 10px auto; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 6px solid var(--madera); }
+        .nav-fecha { display: flex; justify-content: space-between; align-items: center; background: #fdfaf7; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #ddd; }
+        .btn-nav { background: var(--madera); color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 4px; font-size: 0.8rem; }
+        #fecha-actual { font-weight: bold; color: var(--madera); font-size: 0.9rem; text-transform: capitalize; }
+        
+        /* Tarjetas para móviles, Tabla para PC */
+        .tabla-scroll { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { background: var(--madera); color: white; padding: 10px; font-size: 0.85rem; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #eee; font-size: 0.85rem; vertical-align: top; }
+        .btn-inicio { display: block; width: 150px; margin: 20px auto; padding: 10px; background: var(--oro); color: white; text-align: center; text-decoration: none; border-radius: 4px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1 style="font-family: 'Playfair Display'; color: var(--madera); text-align: center;">Historial de Pedidos Cloud</h1>
+    <h1 style="font-family: 'Playfair Display'; text-align: center; font-size: 1.5rem; margin: 10px 0;">Historial de Ventas</h1>
     <div class="nav-fecha">
-        <button class="btn-nav" id="btnPrev">← Día Anterior</button>
-        <div id="fecha-actual" style="font-weight:bold; color: var(--madera);">Cargando...</div>
-        <button class="btn-nav" id="btnNext">Siguiente Día →</button>
+        <button class="btn-nav" id="btnPrev">←</button>
+        <div id="fecha-actual">Cargando...</div>
+        <button class="btn-nav" id="btnNext">→</button>
     </div>
-    <div id="tabla-area">
+    
+    <div class="tabla-scroll">
         <table id="tabla-pedidos">
-            <thead><tr><th>Nombre</th><th>Lugar</th><th>Alimento</th><th>Envío / Dirección</th><th>Notas</th></tr></thead>
+            <thead><tr><th>Cliente</th><th>Platillo/Extra</th><th>Entrega</th><th>Notas</th></tr></thead>
             <tbody id="cuerpo-tabla"></tbody>
         </table>
-        <div id="msj-vacio" class="vacio" style="display:none;">No hay pedidos para este día.</div>
     </div>
+    <div id="msj-vacio" style="display:none; text-align:center; padding:30px; color:#999; font-style:italic;">No hay pedidos hoy.</div>
+    
+    <a href="index.html" class="btn-inicio">Volver al Inicio</a>
 </div>
 
 <script type="module">
@@ -52,51 +59,37 @@
     const db = getFirestore(app);
     let fechaFiltro = new Date();
 
-    async function cargarPedidos() {
-        const displayFecha = fechaFiltro.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' });
-        document.getElementById('fecha-actual').innerText = displayFecha;
-        
+    async function cargar() {
+        const opciones = { weekday: 'short', day: 'numeric', month: 'short' };
+        document.getElementById('fecha-actual').innerText = fechaFiltro.toLocaleDateString('es-ES', opciones);
         const cuerpo = document.getElementById('cuerpo-tabla');
-        cuerpo.innerHTML = "<tr><td colspan='5' align='center'>Buscando en la nube...</td></tr>";
+        cuerpo.innerHTML = "<tr><td colspan='4' align='center'>Cargando...</td></tr>";
 
         const inicio = new Date(fechaFiltro.setHours(0,0,0,0));
         const fin = new Date(fechaFiltro.setHours(23,59,59,999));
 
         try {
-            const q = query(collection(db, "pedidos"), 
-                      where("fecha", ">=", inicio), 
-                      where("fecha", "<=", fin),
-                      orderBy("fecha", "desc"));
-
-            const snapshot = await getDocs(q);
+            const q = query(collection(db, "pedidos"), where("fecha", ">=", inicio), where("fecha", "<=", fin), orderBy("fecha", "desc"));
+            const snap = await getDocs(q);
             cuerpo.innerHTML = "";
-            
-            if (snapshot.empty) {
-                document.getElementById('msj-vacio').style.display = "block";
-                document.getElementById('tabla-pedidos').style.display = "none";
-            } else {
-                document.getElementById('msj-vacio').style.display = "none";
-                document.getElementById('tabla-pedidos').style.display = "table";
-                snapshot.forEach(doc => {
-                    const p = doc.data();
-                    cuerpo.innerHTML += `<tr>
-                        <td>${p.nombre}</td>
-                        <td>${p.empresa}</td>
-                        <td>${p.alimento}<br><small><b>Extra:</b> ${p.extras}</small></td>
-                        <td>${p.direccion}</td>
-                        <td>${p.recomendaciones}</td>
-                    </tr>`;
-                });
-            }
-        } catch (e) {
-            cuerpo.innerHTML = "<tr><td colspan='5' style='color:red'>Error al cargar: " + e.message + "</td></tr>";
-        }
+            document.getElementById('msj-vacio').style.display = snap.empty ? "block" : "none";
+            document.getElementById('tabla-pedidos').style.display = snap.empty ? "none" : "table";
+
+            snap.forEach(doc => {
+                const p = doc.data();
+                cuerpo.innerHTML += `<tr>
+                    <td><b>${p.nombre}</b><br><small>${p.empresa}</small></td>
+                    <td>${p.alimento}<br><small style="color:var(--oro)">+ ${p.extras}</small></td>
+                    <td><small>${p.direccion}</small></td>
+                    <td><small>${p.recomendaciones}</small></td>
+                </tr>`;
+            });
+        } catch (e) { cuerpo.innerHTML = "Error al cargar."; }
     }
 
-    document.getElementById('btnPrev').onclick = () => { fechaFiltro.setDate(fechaFiltro.getDate() - 1); cargarPedidos(); };
-    document.getElementById('btnNext').onclick = () => { fechaFiltro.setDate(fechaFiltro.getDate() + 1); cargarPedidos(); };
-
-    cargarPedidos();
+    document.getElementById('btnPrev').onclick = () => { fechaFiltro.setDate(fechaFiltro.getDate() - 1); cargar(); };
+    document.getElementById('btnNext').onclick = () => { fechaFiltro.setDate(fechaFiltro.getDate() + 1); cargar(); };
+    cargar();
 </script>
 </body>
 </html>
