@@ -6,220 +6,85 @@
     <title>Mayela's Food | Realizar Pedido</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --madera: #3d2b1f;
-            --crema: #fdfaf7;
-            --oro: #a67c52;
-            --blanco: #ffffff;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4ece2;
-            margin: 0;
-            color: #333;
-        }
-
-        header {
-            background: var(--madera);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: 5px solid var(--oro);
-        }
-
-        header h1 {
-            font-family: 'Playfair Display', serif;
-            margin: 0;
-            font-size: 2.5rem;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: 40px auto;
-            background: var(--blanco);
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--madera);
-            text-align: center;
-            border-bottom: 2px solid var(--oro);
-            display: inline-block;
-            width: 100%;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            color: var(--madera);
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-            font-family: 'Poppins', sans-serif;
-            box-sizing: border-box;
-            transition: 0.3s;
-        }
-
-        input:focus, textarea:focus {
-            border-color: var(--oro);
-            outline: none;
-        }
-
-        /* Estilo para las opciones de envío */
-        .radio-group {
-            display: flex;
-            gap: 20px;
-            margin-top: 10px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .radio-option input {
-            width: auto;
-        }
-
-        /* Cuadros de información dinámica */
-        #seccion-direccion, #seccion-retiro {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 4px;
-            font-size: 0.95rem;
-        }
-
-        #seccion-direccion { background-color: #fcf8f3; border-left: 5px solid var(--oro); }
-        #seccion-retiro { background-color: #f0f4f8; border-left: 5px solid #2980b9; color: #2c3e50; }
-
-        .btn-mandar {
-            width: 100%;
-            background: var(--madera);
-            color: white;
-            padding: 20px;
-            border: none;
-            border-radius: 4px;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 30px;
-        }
-
-        .btn-mandar:hover {
-            background: var(--oro);
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            font-size: 0.8rem;
-            color: #777;
-        }
+        :root { --madera: #3d2b1f; --oro: #a67c52; --crema: #fdfaf7; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f4ece2; padding: 20px; }
+        .container { max-width: 650px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--madera); }
+        h2 { font-family: 'Playfair Display', serif; color: var(--madera); text-align: center; border-bottom: 2px solid var(--oro); padding-bottom: 15px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; color: var(--madera); margin-bottom: 8px; font-size: 0.9rem; }
+        input, textarea { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: 'Poppins'; }
+        #info-envio, #info-retiro { display: none; margin-top: 15px; padding: 15px; border-radius: 4px; border-left: 5px solid var(--oro); background: var(--crema); font-size: 0.9rem; }
+        .btn-mandar { width: 100%; background: var(--madera); color: white; padding: 18px; border: none; cursor: pointer; font-family: 'Playfair Display'; font-size: 1.3rem; transition: 0.3s; }
+        .btn-mandar:hover { background: var(--oro); }
+        .btn-mandar:disabled { background: #ccc; }
     </style>
 </head>
 <body>
-
-    <header>
-        <h1>Mayela's Food</h1>
-    </header>
-
     <div class="container">
-        <h2>Detalles de su Pedido</h2>
-        
-        <form id="formPedido" action="registros.html">
-            <div class="form-group">
-                <label for="nombre">1. Nombre Completo *</label>
-                <input type="text" id="nombre" name="nombre" required placeholder="Escriba su nombre">
-            </div>
-
-            <div class="form-group">
-                <label for="empresa">2. Empresa o lugar donde nos escribe *</label>
-                <input type="text" id="empresa" name="empresa" required placeholder="Ej: Banco Central / Residencial X">
-            </div>
-
-            <div class="form-group">
-                <label for="alimento">3. ¿Qué platillo le gustaría comer hoy? *</label>
-                <textarea id="alimento" name="alimento" rows="2" required placeholder="Describa el platillo..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="extras">4. ¿Desea algún extra? *</label>
-                <input type="text" id="extras" name="extras" required placeholder="Ej: Bebida, postre, doble porción...">
-            </div>
-
+        <h2>Detalles del Pedido</h2>
+        <form id="formPedido">
+            <div class="form-group"><label>1. Nombre Completo *</label><input type="text" id="nombre" required></div>
+            <div class="form-group"><label>2. Empresa o lugar *</label><input type="text" id="empresa" required></div>
+            <div class="form-group"><label>3. Platillo deseado *</label><textarea id="alimento" required></textarea></div>
+            <div class="form-group"><label>4. Extras *</label><input type="text" id="extras" required></div>
             <div class="form-group">
                 <label>5. ¿Desea que se lo lleguemos a dejar? *</label>
-                <div class="radio-group">
-                    <label class="radio-option">
-                        <input type="radio" name="envio" value="si" onclick="mostrarOpcionEnvio('si')" required> Sí
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="envio" value="no" onclick="mostrarOpcionEnvio('no')" required> No (Retiro local)
-                    </label>
-                </div>
-
-                <div id="seccion-direccion">
-                    <label for="direccion">Por favor, escriba su dirección exacta:</label>
-                    <textarea id="direccion" name="direccion" rows="3" placeholder="Calle, número de casa, puntos de referencia..."></textarea>
-                </div>
-
-                <div id="seccion-retiro">
-                    <strong>Punto de retiro:</strong><br>
-                    Nuestra dirección es: Detrás del banco de formentacion para que realice el retiro de su comida.
-                </div>
+                <input type="radio" name="envio" value="si" onclick="toggleEnvio('si')" required> Sí 
+                <input type="radio" name="envio" value="no" onclick="toggleEnvio('no')" required> No
+                <div id="info-envio"><label>Escriba su dirección exacta:</label><textarea id="direccion"></textarea></div>
+                <div id="info-retiro">Punto de retiro: Detrás del banco de fomento.</div>
             </div>
-
-            <div class="form-group">
-                <label for="recomendaciones">6. Recomendaciones o notas adicionales *</label>
-                <textarea id="recomendaciones" name="recomendaciones" rows="2" required placeholder="Ej: Sin cebolla, llamar al llegar..."></textarea>
-            </div>
-
-            <button type="submit" class="btn-mandar">Mandar Pedido</button>
+            <div class="form-group"><label>6. Recomendaciones *</label><textarea id="recomendaciones" required></textarea></div>
+            <button type="submit" id="btnSubmit" class="btn-mandar">Mandar Pedido</button>
         </form>
     </div>
 
-    <footer>
-        &copy; 2026 Mayela's Food - Tradición Hogareña
-    </footer>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    <script>
-        function mostrarOpcionEnvio(opcion) {
-            const seccionDireccion = document.getElementById('seccion-direccion');
-            const seccionRetiro = document.getElementById('seccion-retiro');
-            const inputDireccion = document.getElementById('direccion');
+        const firebaseConfig = {
+            apiKey: "AIzaSyCEKStEmxEY5bYXVErk7QorY-qFR8uROmM",
+            authDomain: "mayelas-d5d03.firebaseapp.com",
+            projectId: "mayelas-d5d03",
+            storageBucket: "mayelas-d5d03.firebasestorage.app",
+            messagingSenderId: "194046067402",
+            appId: "1:194046067402:web:22ce3a5d08241840516a33",
+            measurementId: "G-KBRG6WGQ5X"
+        };
 
-            if (opcion === 'si') {
-                seccionDireccion.style.display = 'block';
-                seccionRetiro.style.display = 'none';
-                inputDireccion.setAttribute('required', 'required');
-            } else {
-                seccionDireccion.style.display = 'none';
-                seccionRetiro.style.display = 'block';
-                inputDireccion.removeAttribute('required');
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.toggleEnvio = (val) => {
+            document.getElementById('info-envio').style.display = (val === 'si' ? 'block' : 'none');
+            document.getElementById('info-retiro').style.display = (val === 'no' ? 'block' : 'none');
+        };
+
+        document.getElementById('formPedido').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnSubmit');
+            btn.disabled = true;
+            btn.innerText = "Procesando...";
+
+            try {
+                await addDoc(collection(db, "pedidos"), {
+                    nombre: document.getElementById('nombre').value,
+                    empresa: document.getElementById('empresa').value,
+                    alimento: document.getElementById('alimento').value,
+                    extras: document.getElementById('extras').value,
+                    envio: document.querySelector('input[name="envio"]:checked').value,
+                    direccion: document.getElementById('direccion').value || "Retiro en local",
+                    recomendaciones: document.getElementById('recomendaciones').value,
+                    fecha: serverTimestamp()
+                });
+                window.location.href = 'registros.html';
+            } catch (error) {
+                alert("Error al enviar: " + error.message);
+                btn.disabled = false;
+                btn.innerText = "Mandar Pedido";
             }
-        }
+        });
     </script>
-
 </body>
 </html>
