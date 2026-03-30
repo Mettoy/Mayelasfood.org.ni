@@ -7,106 +7,67 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { --madera: #3d2b1f; --oro: #a67c52; --crema: #fdfaf7; }
-        body { font-family: 'Poppins', sans-serif; margin: 0; background-color: #f4ece2; color: #333; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background-color: #f4ece2; color: #333; overflow-x: hidden; }
         
         header {
-            height: 75vh;
+            height: 60vh;
             background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://i.ibb.co/fdfZr7Xp/your-image.jpg'); 
             background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center;
-            border-bottom: 8px solid var(--madera);
+            border-bottom: 8px solid var(--madera); padding: 0 20px;
         }
 
-        header h1 { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 10vw, 6rem); margin: 0; text-shadow: 2px 4px 10px rgba(0,0,0,0.7); }
-        header p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.8rem; margin-top: 10px; }
+        header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 5rem); margin: 0; text-shadow: 2px 4px 10px rgba(0,0,0,0.7); }
+        header p { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.1rem, 4vw, 1.6rem); margin-top: 10px; }
 
-        .card { max-width: 800px; margin: -80px auto 60px; background: white; padding: 50px 40px; border-radius: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; border-top: 6px solid var(--oro); position: relative; }
+        .card { max-width: 800px; margin: -50px auto 40px; background: white; padding: 40px 20px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; border-top: 6px solid var(--oro); position: relative; width: 90%; box-sizing: border-box; }
         
-        .btn-pide-ya { display: inline-block; background-color: var(--madera); color: white; padding: 20px 60px; text-decoration: none; font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: bold; border-radius: 2px; transition: 0.3s; box-shadow: 0 5px 20px rgba(61, 43, 31, 0.4); border: 2px solid var(--madera); margin-bottom: 15px; width: 80%; max-width: 300px; }
-        .btn-pide-ya:hover { background-color: transparent; color: var(--madera); transform: translateY(-3px); }
+        .btn-pide-ya { display: block; background-color: var(--madera); color: white; padding: 18px; text-decoration: none; font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: bold; border-radius: 4px; transition: 0.3s; margin: 0 auto 15px; width: 100%; max-width: 280px; border: 2px solid var(--madera); }
+        .btn-registros { display: block; background-color: transparent; color: var(--madera); padding: 12px; text-decoration: none; font-size: 1rem; font-weight: 600; border-radius: 4px; transition: 0.3s; border: 2px solid var(--madera); cursor: pointer; width: 100%; max-width: 280px; margin: 0 auto; }
 
-        /* Estilo para el botón de Ver Pedidos */
-        .btn-registros { display: inline-block; background-color: transparent; color: var(--madera); padding: 12px 30px; text-decoration: none; font-size: 1rem; font-weight: 600; border-radius: 2px; transition: 0.3s; border: 2px solid var(--madera); cursor: pointer; width: 80%; max-width: 300px; }
-        .btn-registros:hover { background-color: var(--crema); }
-
-        /* Estilos de la Ventana Emergente (Modal) */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
-        .modal-content { background-color: white; margin: 15% auto; padding: 30px; border-radius: 8px; width: 90%; max-width: 400px; text-align: center; border-top: 5px solid var(--madera); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .modal-content h3 { font-family: 'Playfair Display', serif; color: var(--madera); margin-bottom: 20px; }
-        .modal-content input { width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid #ddd; border-radius: 4px; box-sizing: border-box; text-align: center; font-size: 1.1rem; }
-        .btn-ingresar { background: var(--madera); color: white; border: none; padding: 12px 30px; cursor: pointer; width: 100%; font-weight: bold; border-radius: 4px; }
-        .btn-cancelar { background: transparent; color: #777; border: none; margin-top: 15px; cursor: pointer; text-decoration: underline; }
+        /* Modal Responsivo */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); }
+        .modal-content { background-color: white; margin: 20% auto; padding: 25px; border-radius: 8px; width: 85%; max-width: 350px; text-align: center; border-top: 5px solid var(--madera); }
+        .modal-content input { width: 100%; padding: 12px; margin: 15px 0; border: 2px solid #ddd; border-radius: 4px; box-sizing: border-box; text-align: center; font-size: 1.1rem; }
+        .btn-ingresar { background: var(--madera); color: white; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 4px; font-size: 1rem; }
         
-        footer { padding: 40px; background: var(--madera); color: white; text-align: center; }
+        footer { padding: 30px 20px; background: var(--madera); color: white; text-align: center; font-size: 0.9rem; }
+
+        @media (max-width: 480px) { header { height: 50vh; } .card { margin-top: -30px; padding: 30px 15px; } }
     </style>
 </head>
 <body>
-
     <header>
         <h1>Mayela's Food</h1>
-        <p>Sabor de hogar, directo a tu mesa</p>
+        <p>Sabor de hogar en tu mesa</p>
     </header>
 
     <main class="card">
-        <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--madera);">Calidad y Tradición</h2>
-        <p style="font-size: 1.1rem; margin-bottom: 40px; color: #666;">Comida casera empacada con el mejor sazón de Nicaragua.</p>
-        
+        <h2 style="font-family: 'Playfair Display'; font-size: 1.8rem; color: var(--madera); margin-top:0;">Tradición Casera</h2>
+        <p style="margin-bottom: 30px; color: #666;">Platillos empacados con el mejor sazón de Managua.</p>
         <a href="pedidos.html" class="btn-pide-ya">Pide ya</a>
-        <br>
         <button class="btn-registros" onclick="abrirModal()">Ver pedidos</button>
     </main>
 
     <div id="modalPassword" class="modal">
         <div class="modal-content">
-            <h3>Acceso Administrativo</h3>
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">Ingrese su contraseña de acceso:</p>
+            <h3 style="font-family: 'Playfair Display'; color: var(--madera); margin:0;">Acceso</h3>
             <input type="password" id="inputPass" placeholder="Contraseña">
             <button class="btn-ingresar" onclick="validarAcceso()">Ingresar</button>
-            <br>
-            <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+            <button style="background:none; border:none; color:#999; margin-top:15px; text-decoration:underline; cursor:pointer;" onclick="cerrarModal()">Cerrar</button>
         </div>
     </div>
 
-    <footer>
-        <p>Mayela's Food | Managua, Nicaragua</p>
-    </footer>
+    <footer><p>© 2026 Mayela's Food | Nicaragua</p></footer>
 
     <script>
-        function abrirModal() {
-            document.getElementById('modalPassword').style.display = 'block';
-            document.getElementById('inputPass').focus();
-        }
-
-        function cerrarModal() {
-            document.getElementById('modalPassword').style.display = 'none';
-            document.getElementById('inputPass').value = ''; // Limpiar campo
-        }
-
+        function abrirModal() { document.getElementById('modalPassword').style.display = 'block'; document.getElementById('inputPass').focus(); }
+        function cerrarModal() { document.getElementById('modalPassword').style.display = 'none'; }
         function validarAcceso() {
-            const passIngresada = document.getElementById('inputPass').value;
-            // Convertimos a minúsculas para que no importe cómo la escriba
-            if (passIngresada.toLowerCase() === 'darling1234') {
-                window.location.href = 'registros.html';
-            } else {
-                alert('Contraseña incorrecta. Intente de nuevo.');
-                document.getElementById('inputPass').value = '';
-            }
-        }
-
-        // Permitir entrar tocando la tecla "Enter"
-        document.getElementById('inputPass').addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                validarAcceso();
-            }
-        });
-
-        // Cerrar modal si hace clic afuera del cuadro blanco
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('modalPassword')) {
-                cerrarModal();
-            }
+            const pass = document.getElementById('inputPass').value.toLowerCase();
+            if (pass === 'darling1234') { window.location.href = 'registros.html'; } 
+            else { alert('Contraseña incorrecta'); document.getElementById('inputPass').value = ''; }
         }
     </script>
-
 </body>
 </html>
