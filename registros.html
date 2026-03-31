@@ -45,16 +45,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCEKStEmxEY5bYXVErk7QorY-qFR8uROmM",
-        authDomain: "mayelas-d5d03.firebaseapp.com",
-        projectId: "mayelas-d5d03",
-        storageBucket: "mayelas-d5d03.firebasestorage.app",
-        messagingSenderId: "194046067402",
-        appId: "1:194046067402:web:22ce3a5d08241840516a33",
-        measurementId: "G-KBRG6WGQ5X"
-    };
-
+    
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     let fechaFiltro = new Date();
